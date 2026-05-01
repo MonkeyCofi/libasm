@@ -1,0 +1,20 @@
+callee-saved registers (call-preserved): these are registers that hold values that are long-lived. this means that its the callee's (subroutine) responsibility to save the previous values of these registers prior to executing and then to restore these registers back to their initial saved state after the subroutine call
+
+caller-saved registers (call-clobbered): these are registers that store values that aren't super important to the caller. if the caller needs these values to be saved prior to a subroutine, it is the caller's responsibility to save the values and restore them after a subroutine call. it is normal for calls to destroy the values within these registers.
+
+what each register is primarily used for (according to source https://cs61.seas.harvard.edu/site/2025/Asm/#Instruction-classes):
+  - RAX/EAX (A for accumulator) is used for the return value
+  - RCX/ECX (C for counter) is used for the 4th function parameter
+  - RDX/EDX (D for data) is used for the 3rd function parameter. additionally, it is also used as a 2nd return register (for 9-16 byte return values)
+  - RSI/ESI (SI for source index) is used for the 2nd function parameter
+  - RDI/EDI (DI for destination index) is used for the 1st function parameter
+
+The return value of a call is expected to be stored in the EAX register (idk if there would be difference if the RAX register was used instead)
+
+when pushing parameters to a subroutine (a function call), the parameters are to be pushed in an inverted order (last parameter gets pushed first).
+
+the call instruction pushes the return address to the stack and jumps to the subroutine code
+
+following a subroutine call, the callee should:
+  - remove the parameters from the stack to restore the state of the stack
+  - remove the contents from the EAX, ECX, and EDX registers from the stack
