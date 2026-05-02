@@ -14,9 +14,9 @@ loop:
   cmp [rdi + rax], 0  ; cmp [rdi + rax] means 
   ; if the characters are equal, jump to return
   ; else if the characters are not equal, continue the loop
-  je .return
-  inc rax
-  jmp loop
+  je .return  ; jump to return if the cmp == true
+  inc rax     ; increment length
+  jmp loop    ; restart the loop
 
 return:
   ret
