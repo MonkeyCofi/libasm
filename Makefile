@@ -2,18 +2,22 @@ NAME := libasm
 
 CC := gcc
 
+SRC_DIR := srcs
+
+OBJ_DIR := objs
+
 CFLAGS := -Wall -Wextra -Werror
 
 # convert the .s files into object files
-SRCS := ft_strlen.s ft_strcmp.s
+SRCS := $(addprefix $(SRC_DIR)/, ft_strlen.s ft_strcmp.s ft_write.s) 
 
-OBJS := $(SRCS:.s=.o)
+OBJS := $(SRCS:$(SRC_DIR)/%.s=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
 # recipe for every .s file
-%.o: %.s
-	nasm -f elf64 $^
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
+	nasm -f elf64 $^ -o $@
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) main.c -o test
