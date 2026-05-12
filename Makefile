@@ -9,7 +9,7 @@ OBJ_DIR := objs
 CFLAGS := -Wall -Wextra -Werror
 
 # convert the .s files into object files
-SRCS := $(addprefix $(SRC_DIR)/, ft_strlen.s ft_strcmp.s ft_write.s) 
+SRCS := $(addprefix $(SRC_DIR)/, ft_strlen.s ft_strcmp.s ft_write.s ft_open.s ft_strcpy.s) 
 
 OBJS := $(SRCS:$(SRC_DIR)/%.s=$(OBJ_DIR)/%.o)
 
