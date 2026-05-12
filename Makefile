@@ -17,7 +17,7 @@ all: $(NAME)
 
 # recipe for every .s file
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
-	nasm -f elf64 $^ -o $@
+	nasm -w+error -f elf64 $^ -o $@
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) main.c -o test

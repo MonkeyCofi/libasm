@@ -4,9 +4,18 @@
 
 section .text
 	global ft_strcpy
-	xor rdx, rdx
+	mov rcx, [rdi]	; dest
+	mov rdx, [rsi]	; src
 
 ft_strcpy:
-	; move every byte from rsi to rdi
-	mov [rdi], [rsi]
+	cmp rcx, 0
+	je _return
+	cmp rdx, 0
+	je _return
+	mov rcx, rdx
+	inc rcx
+	inc rdx
+	jmp ft_strcpy
+
+_return:
 	ret
