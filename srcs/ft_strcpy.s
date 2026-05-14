@@ -2,8 +2,6 @@
 ; dest -> $rdi
 ; src -> $rsi
 
-extern printf
-
 section .text
 	global ft_strcpy
 	xor rax, rax
@@ -22,5 +20,6 @@ _return:
 	; return the destination address
 	; add the nul terminator to the end of the rdi register
 	; mov rdi, 0
+	mov BYTE [rax], 0
 	mov rax, rdi
 	ret

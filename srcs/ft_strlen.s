@@ -5,13 +5,13 @@ section .text
 
 ft_strlen:
 	xor rax, rax
-	jmp .loop
+	jmp _loop
 
-.loop:
+_loop:
 	cmp byte [rdi + rax], 0
-	je .return
+	je _return
 	inc rax
-	jmp .loop
+	jmp _loop
 
-.return:
+_return:
 	ret

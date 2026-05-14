@@ -9,6 +9,7 @@ extern int		ft_strcmp(const char *s1, const char *s2);
 extern ssize_t	ft_write(int fd, const void *buffer, size_t count);
 extern int		ft_open(const char* filename, int flags, ...);
 extern char*	ft_strcpy(char *dest, char *src);
+extern char*	ft_strdup(const char *str);
 //extern int	ft_strcmp(const char *s1, const char *s2);
 
 int main(void)
@@ -23,11 +24,12 @@ int main(void)
 		printf("=======================\n");
 		char *str = "hello, world";
 		ssize_t len = ft_strlen(str);
-		printf("the length of str %s is %ld\n", str, len);
-		str = "";
-		len = ft_strlen(str);
-		printf("the length of str %s is %ld\n", str, len);
-		printf("=======================\n\n");
+		(void)len;
+		// printf("the length of str %s is %ld\n", str, len);
+		// str = "";
+		// len = ft_strlen(str);
+		// printf("the length of str %s is %ld\n", str, len);
+		// printf("=======================\n\n");
 	}
 
 	/*
@@ -46,6 +48,19 @@ int main(void)
 		else
 			printf("strcpy returned a different address\n");
 		printf("dest: %p, strcpy: %p\n", dest, ret);
+		printf("=======================\n\n");
+	}
+
+	{
+		printf("ft_strdup tests\n");
+		char *str = "i will be copied";
+		char *dup = ft_strdup(str);
+		printf("str: %s", str);
+		if (dup)
+			printf(", dup: %s\n", dup);
+		else
+			printf("\nThere is no dup\n");
+		free(dup);
 		printf("=======================\n\n");
 	}
 }
