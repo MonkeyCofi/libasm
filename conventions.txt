@@ -18,3 +18,8 @@ the call instruction pushes the return address to the stack and jumps to the sub
 following a subroutine call, the callee should:
   - remove the parameters from the stack to restore the state of the stack
   - remove the contents from the EAX, ECX, and EDX registers from the stack
+
+BYTE: 8 bits
+WORD: 16 bits
+DWORD: 32 bits
+QWORD: 64 bits

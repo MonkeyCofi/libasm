@@ -5,20 +5,20 @@ section .text
 	global ft_strdup
 
 ft_strdup:
-	; get the length of the string using ft_strlen
-	; the length will be stored in the rax register
 	extern ft_strlen
-	call ft_strlen	; value saved in rax
-	; mov rcx, rdi	; save rdi in another register
-	; mov rsi, rcx	; move the string into rsi (strcpy src)
-	; mov edi, eax	; move the length into the edi register for malloc
-	; extern malloc
-	; call malloc WRT ..plt	; saves the malloc'd address in rax
-	; mov rdi, rax	; move the malloced address into rdi (strcpy dest)
-	; extern ft_strcpy
-	; call ft_strcpy
-	; jmp _return
+	call ft_strlen
+	mov r8, rdi		; save the string into the r8 register
+	mov edi, eax	; edi will have the length
+	inc edi
+	extern malloc
+	call malloc WRT ..plt
+					; rax will now have the malloc'd address
+	mov rdi, rax	; store the malloc'd address into rdi as strcpy dest
+	mov rsi, r8		; move the str from rcx into rsi as strcpy src
+	extern ft_strcpy
+	call ft_strcpy
+	jmp _return
 
 _return:
-	mov rax, 0
+	; mov rax, 0
 	ret
