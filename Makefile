@@ -20,7 +20,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
 	nasm -w+error -f elf64 $^ -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -g3 -fsanitize=address main.c -o test
+	$(CC) $(CFLAGS) $(OBJS) -g3 main.c -o test
 
 
 re: fclean all
