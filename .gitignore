@@ -1,3 +1,5 @@
 *.o
 a.out
 test
+ft_open_test
+open_test

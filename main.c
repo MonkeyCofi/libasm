@@ -24,12 +24,12 @@ int main(void)
 		printf("=======================\n");
 		char *str = "hello, world";
 		ssize_t len = ft_strlen(str);
-		(void)len;
-		// printf("the length of str %s is %ld\n", str, len);
-		// str = "";
-		// len = ft_strlen(str);
-		// printf("the length of str %s is %ld\n", str, len);
-		// printf("=======================\n\n");
+	  (void)len;
+		printf("the length of str %s is %ld\n", str, len);
+		str = "";
+		len = ft_strlen(str);
+	  printf("the length of str %s is %ld\n", str, len);
+		printf("=======================\n\n");
 	}
 
 	/*
@@ -71,8 +71,34 @@ int main(void)
 		tests for ft_write
 	*/
 	{
-		char *str = "hello, world";
-		sisze_t res = ft_write(1, str, ft_strlen(str));
-		
+		char *str = "hello, world\n";
+		ssize_t res1 = ft_write(1, str, ft_strlen(str));
+    ssize_t res2 = write(1, str, strlen(str));
+    if (res1 < 0)
+      perror("ft_write");
+    printf("ft_write returned %ld\n", res1);
+    printf("write returned %ld\n", res2);
+    str = NULL;
+    res1 = ft_write(1, str, 10);
+    res2 = write(1, str, 10);
+    if (res1 < 0)
+      perror("ft_write");
+    if (res2 < 0)
+        perror("write");
+    printf("ft_write returned %ld\n", res1);
+    printf("write returned %ld\n", res2);	
 	}
+
+  {
+    int fd1 = open("open_test", O_CREAT | O_RDWR | O_APPEND, 0644);
+    if (fd1 < 0)
+      perror("open");
+    else
+      printf("fd1 successfully opened at fd %d\n", fd1);
+    int fd2 = ft_open("ft_open_test", O_CREAT | O_RDWR | O_APPEND, 0644);
+    if (fd2 < 0)
+      perror("ft_open");
+    else
+      printf("fd2 successfully opened at fd %d\n", fd2);
+  }
 }

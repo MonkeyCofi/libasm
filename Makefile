@@ -11,7 +11,8 @@ OBJ_DIR := objs
 CFLAGS := -Wall -Wextra -Werror
 
 # convert the .s files into object files
-SRCS := $(addprefix $(SRC_DIR)/, ft_strlen.s ft_strcmp.s ft_write.s ft_open.s ft_strcpy.s ft_strdup.s) 
+SRCS := $(addprefix $(SRC_DIR)/, ft_strlen.s ft_strcmp.s ft_write.s ft_open.s ft_strcpy.s \
+				ft_strdup.s)
 
 OBJS := $(SRCS:$(SRC_DIR)/%.s=$(OBJ_DIR)/%.o)
 
@@ -22,7 +23,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
 	nasm -w+error -f elf64 $^ -o $@
 
 test: $(NAME)	
-	$(CC) $(CFLAGS) -g3 main.c -L./ $(NAME) -o $(TESTNAME)
+	$(CC) $(CFLAGS) main.c -L./ $(NAME) -o $(TESTNAME)
 
 $(NAME): $(OBJS)
 	ar -rcs $@ $^
