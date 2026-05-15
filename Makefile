@@ -1,4 +1,6 @@
-NAME := libasm
+NAME := libasm.a
+
+TESTNAME := libasm_test
 
 CC := gcc
 
@@ -19,13 +21,16 @@ all: $(NAME)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
 	nasm -w+error -f elf64 $^ -o $@
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -g3 main.c -o test
+test: $(NAME)	
+	$(CC) $(CFLAGS) -g3 main.c -L./ $(NAME) -o $(TESTNAME)
 
+$(NAME): $(OBJS)
+	ar -rcs $@ $^
 
 re: fclean all
 
 fclean: clean
-	rm -f test
+	rm -f $(TESTNAME)
+	rm -f $(NAME)
 clean:
 	rm -rf $(OBJS)

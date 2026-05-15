@@ -51,6 +51,9 @@ int main(void)
 		printf("=======================\n\n");
 	}
 
+	/*
+		tests for ft_strdup
+	*/
 	{
 		printf("ft_strdup tests\n");
 		char *str = "i will be copied";
@@ -62,5 +65,14 @@ int main(void)
 			printf("\nThere is no dup\n");
 		free(dup);
 		printf("=======================\n\n");
+	}
+
+	/*
+		tests for ft_write
+	*/
+	{
+		char *str = "hello, world";
+		sisze_t res = ft_write(1, str, ft_strlen(str));
+		
 	}
 }
