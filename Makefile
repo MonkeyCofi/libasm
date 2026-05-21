@@ -47,6 +47,7 @@ re: fclean all
 fclean: clean
 	rm -f $(TESTNAME)
 	rm -f $(NAME)
+
 clean:
 	rm -rf $(OBJS)
 	rm -rf $(BONUS_OBJS)
