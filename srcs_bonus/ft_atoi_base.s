@@ -16,5 +16,13 @@ ft_atoi_base:
 ; check for duplicate characters
 ; check for -, +, and whitespace characters
 _validate:
-	extern ft_strlen
-	
+	extern ft_strlen	; get the length of the base 0 < b < 10
+						; length will be saved in the rax register
+	cmp rax, 0
+	jle _base_length_error
+	cmp rax, 10
+	jg _base_length_error
+
+_base_length_error:
+
+	ret
