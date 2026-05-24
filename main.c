@@ -26,7 +26,7 @@ int main(void)
 		ssize_t len = ft_strlen(str);
 	  	(void)len;
 		printf("the length of str %s is %ld\n", str, len);
-		str = "";
+		str = NULL;
 		len = ft_strlen(str);
 	  	printf("the length of str %s is %ld\n", str, len);
 		printf("=======================\n\n");
@@ -54,6 +54,7 @@ int main(void)
 	/*
 		tests for ft_strdup
 	*/
+	#include <string.h>
 	{
 		printf("ft_strdup tests\n");
 		char *str = "i will be copied";
@@ -79,8 +80,8 @@ int main(void)
 		printf("ft_write returned %ld\n", res1);
 		printf("write returned %ld\n", res2);
 		str = NULL;
-		res1 = ft_write(1, str, 10);
-		res2 = write(1, str, 10);
+		res1 = ft_write(1, str, ft_strlen(str));
+		res2 = write(1, str, ft_strlen(str));
 		if (res1 < 0)
 			perror("ft_write");
 		if (res2 < 0)
