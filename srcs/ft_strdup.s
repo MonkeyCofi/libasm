@@ -21,6 +21,7 @@ ft_strdup:
 	mov rsi, [rsp]		; move the str from rcx into rsi as strcpy src
 	extern ft_strcpy
 	call ft_strcpy
+	mov 
 	add rsp, 8	; delete the bytes used for the str pointer in the stack
 	ret
 
