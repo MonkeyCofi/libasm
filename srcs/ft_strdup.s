@@ -1,3 +1,7 @@
+default rel	; change the addressing mode from absolute addressing to relative addressing
+			; this makes the code position independent by using the instruction pointer
+			; as a base address that will be offset by the address
+
 ; char *ft_strdup(const char *str)
 ; str -> $rdi
 
@@ -23,8 +27,6 @@ ft_strdup:
 	call ft_strcpy WRT ..plt
 	add rsp, 8			; delete the bytes used for the str pointer in the stack
 	ret
-
-
 
 _error:
 	; set the errno to 12, which is nomem

@@ -1,4 +1,4 @@
-extern __errno_location
+default rel
 
 section .text
 	global ft_open
@@ -11,10 +11,10 @@ ft_open:
 	ret
 
 _error:
-	_error:
 	mov rbx, rax	; move the error number to rbx
 	neg rbx			; negate the error number
-	call __errno_location WRT ..plt
+	extern __errno_location	; extern for __errno_location
+	call __errno_location WRT ..plt	; call errno with reference to the linkage table
 	mov [rax], rbx	; move the error number to *rax address
 	mov rax, -1
 	ret
