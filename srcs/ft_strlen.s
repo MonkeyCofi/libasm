@@ -7,7 +7,7 @@ section .text
 ft_strlen:
 	xor rax, rax	; set the rax register to 0
 	cmp rdi, 0
-	jz _return
+	je _return
 	jmp _loop
 
 _loop:

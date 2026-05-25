@@ -6,24 +6,18 @@ section .text
 	global ft_strcpy
 
 ft_strcpy:
-	xor rax, rax
-	; mov rax, rdi
-	lea rax, [rdi]
+	xor rcx, rcx
 	jmp _loop
 
 _loop:
-	cmp [rsi], BYTE 0	; compare the current $rsi character to nul
-	je _return			; if it is equal, jump to return
-	mov cl, BYTE [rsi]	; move the character to the cl register 
-	mov BYTE [rax], cl	; move the character from cl into the rax register (which is equal to the destination)
-	inc rsi				; increment the src ptr
-	inc rax				; increment the dst ptr
-	jmp ft_strcpy		; loop again
+	cmp BYTE [rsi + rcx], 0
+	je _return
+	mov al, BYTE [rsi + rcx]
+	mov BYTE [rdi + rcx], al
+	inc rcx
+	jmp _loop
 
 _return:
-	; return the destination address
-	; add the nul terminator to the end of the rdi register
-	; mov rdi, 0
-	mov BYTE [rax], 0
-	mov rax, rdi
+	mov BYTE [rdi + rcx], 0
+	lea rax, [rdi]
 	ret
