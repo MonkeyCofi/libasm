@@ -2,6 +2,12 @@ NAME := libasm.a
 
 TESTNAME := libasm_test
 
+BONUS_TESTNAME := libasm_bonus_test
+
+TEST_FILE := main.c
+
+BONUS_TEST_FILE := bonus_main.c
+
 CC := gcc
 
 SRC_DIR := srcs
@@ -29,6 +35,9 @@ all: $(OBJ_DIR) $(NAME)
 $(OBJ_DIR):
 	mkdir -p $@
 
+$(BONUS_OBJ_DIR):
+	mkdir -p $@
+
 # recipe for every .s file
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
 	nasm -w+error -f elf64 $^ -o $@
@@ -36,10 +45,13 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
 $(BONUS_OBJ_DIR)/%.o: $(BONUS_SRC_DIR)/%.s
 	nasm -w+error -f elf64 $^ -o $@
 
-test: $(NAME)	
-	$(CC) $(CFLAGS) main.c -L./ $(NAME) -o $(TESTNAME)
+test: $(NAME)
+	$(CC) $(CFLAGS) $(TEST_FILE) -L./ $(NAME) -o $(TESTNAME)
 
-bonus: $(NAME) $(BONUS_OBJS)
+bonus_test: $(NAME) bonus
+	$(CC) $(CFLAGS) $(BONUS_TEST_FILE) -L./ $(NAME) -o $(BONUS_TESTNAME) -lm
+
+bonus: $(BONUS_OBJ_DIR) $(NAME) $(BONUS_OBJS)
 	ar -rcs $(NAME) $(BONUS_OBJS)
 
 $(NAME): $(OBJS)
