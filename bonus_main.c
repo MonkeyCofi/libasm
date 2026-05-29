@@ -10,6 +10,7 @@ typedef struct s_list {
 extern int      ft_atoi_base(const char *str, const char *base);
 extern size_t   ft_strlen(const char *str);
 extern int      ft_list_size(t_list *begin_list);
+extern void     ft_list_push_front(t_list **head, void *data);
 
 void test_atoi_base()
 {
@@ -29,9 +30,18 @@ int main(void)
     t_list *head = malloc(sizeof(t_list));
     head->data = NULL;
     head->next = NULL;
-    t_list *node = malloc(sizeof(t_list));
-    head->next = node;
-    node->next = NULL;
-    node->data = NULL;
+    int *n = malloc(sizeof(int));
+    *n = 5;
+    ft_list_push_front(&head, &n);
+    perror("ft_list_push_front");
+    if (head) {
+        t_list *second = head->next;
+        if (second)
+        {
+            printf("there is a next node\n");
+        }
+        else
+            printf("there is only one node\n");
+    }
     printf("size %d\n", ft_list_size(head));
 }
