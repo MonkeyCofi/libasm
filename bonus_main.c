@@ -37,28 +37,11 @@ int c_atoi_base(const char *str, const char *base)
     return result;
 }
 
-void test_list_size()
-{
-    int n = 3;
-    t_list *node = malloc(sizeof(t_list));
-    node->next = NULL;
-    node->data = NULL;
-    t_list *new = malloc(sizeof(t_list));
-    node->next = new;
-    new->next = NULL;
-    new->data = NULL;
-    size_t size = lstsize(node);
-    printf("size %ld\n", size);
-    (void)size;
-    (void)n;
-}
-
 int main(void)
 {
-    const char *str = "67";
-    const char *base = "012345678";
+    const char *str = "69abc";
+    const char *base = "0123456789abcdef";
     int n = ft_atoi_base(str, base);
     int cn = c_atoi_base(str, base);
     printf("c %d\nasm %d\n", cn, n);
-    test_list_size();
 }
