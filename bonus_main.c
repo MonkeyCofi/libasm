@@ -9,39 +9,29 @@ typedef struct s_list {
 
 extern int      ft_atoi_base(const char *str, const char *base);
 extern size_t   ft_strlen(const char *str);
-extern size_t   ft_lstsize(t_list *head);
-extern size_t   lstsize(t_list *head);
+extern int      ft_list_size(t_list *begin_list);
 
-
-int naive_pow(int base, int exponent)
+void test_atoi_base()
 {
-    int result = 1;
-    for (int i = 0; i < exponent; i++) {
-        result *= base;
-    }
-    return result;
-}
-
-int c_atoi_base(const char *str, const char *base)
-{
-    if (ft_strlen(base) == 0 || ft_strlen(base) > 10)
-        return -1;
-    int power = ft_strlen(str) - 1;
-    int base_num = ft_strlen(base);
-    int result = 0;
-    for (int i = 0; str[i]; i++)
-    {
-        result += (str[i] - '0') * (pow(base_num, power));
-        power--;
-    }
-    return result;
+    char *str = "69abc";
+    char *base = "0123456789abcdef";
+    int n = ft_atoi_base(str, base);
+    printf("str %s base %s result %d\n", str, base, n);
+    str = "9a";
+    base = "0123456789";
+    n = ft_atoi_base(str, base);
+    printf("str %s base %s result %d\n", str, base, n);
 }
 
 int main(void)
 {
-    const char *str = "69abc";
-    const char *base = "0123456789abcdef";
-    int n = ft_atoi_base(str, base);
-    int cn = c_atoi_base(str, base);
-    printf("c %d\nasm %d\n", cn, n);
+    test_atoi_base();
+    t_list *head = malloc(sizeof(t_list));
+    head->data = NULL;
+    head->next = NULL;
+    t_list *node = malloc(sizeof(t_list));
+    head->next = node;
+    node->next = NULL;
+    node->data = NULL;
+    printf("size %d\n", ft_list_size(head));
 }

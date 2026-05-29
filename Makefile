@@ -24,7 +24,7 @@ CFLAGS := -Wall -Wextra -Werror
 SRCS := $(addprefix $(SRC_DIR)/, ft_strlen.s ft_strcmp.s ft_write.s ft_open.s ft_strcpy.s \
 				ft_strdup.s ft_read.s)
 
-BONUS_SRCS := $(addprefix $(BONUS_SRC_DIR)/, ft_atoi_base.s ft_lstsize.s)
+BONUS_SRCS := $(addprefix $(BONUS_SRC_DIR)/, ft_atoi_base.s ft_list_size.s ft_list_push_front.s)
 
 BONUS_OBJS := $(BONUS_SRCS:$(BONUS_SRC_DIR)/%.s=$(BONUS_OBJ_DIR)/%.o)
 
