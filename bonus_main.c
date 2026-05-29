@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+
+typedef struct s_list {
+    void            *data;
+    struct s_list   *next;
+}   t_list;
+
 extern int      ft_atoi_base(const char *str, const char *base);
 extern size_t   ft_strlen(const char *str);
+extern size_t   ft_lstsize(t_list *head);
+extern size_t   lstsize(t_list *head);
+
 
 int naive_pow(int base, int exponent)
 {
-    /*
-        base * itself an exponent amount of times
-    */
     int result = 1;
-    // while (exponent > 0)
-    // {
-    //     result *= base;
-    //     exponent -= 1;
-    // }
     for (int i = 0; i < exponent; i++) {
         result *= base;
     }
@@ -29,19 +31,34 @@ int c_atoi_base(const char *str, const char *base)
     int result = 0;
     for (int i = 0; str[i]; i++)
     {
-        // int pour = naive_pow(base_num, power);
-        // int pow_pow = pow(base_num, power);
         result += (str[i] - '0') * (pow(base_num, power));
         power--;
     }
     return result;
 }
 
+void test_list_size()
+{
+    int n = 3;
+    t_list *node = malloc(sizeof(t_list));
+    node->next = NULL;
+    node->data = NULL;
+    t_list *new = malloc(sizeof(t_list));
+    node->next = new;
+    new->next = NULL;
+    new->data = NULL;
+    size_t size = lstsize(node);
+    printf("size %ld\n", size);
+    (void)size;
+    (void)n;
+}
+
 int main(void)
 {
-    const char *str = "01";
-    const char *base = "01";
+    const char *str = "67";
+    const char *base = "012345678";
     int n = ft_atoi_base(str, base);
     int cn = c_atoi_base(str, base);
     printf("c %d\nasm %d\n", cn, n);
+    test_list_size();
 }

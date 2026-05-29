@@ -4,52 +4,106 @@
 ; str -> $rdi
 ; base -> $rsi
 
-
 ; variables
-; rcx => current exponent
-; rbp - 8 => base length
-; rbp - 16 => result of power function
-; rbp - 24 => integer flag for negative
-; rbp - 32 => counter to loop up until exponent
-; rbp - 40 => overall result of atoi_base
+; rcx 		=> current exponent
+; rax 		=> operand for multiplier
+; rbp - 8 	=> base length
+; rbp - 16 	=> result of power function
+; rbp - 24 	=> integer flag for negative
+; rbp - 32 	=> counter to loop up until exponent
+; rbp - 40 	=> overall result of atoi_base
 section .text
 	global ft_atoi_base	
 
 ft_atoi_base:
 	xor rax, rax
 	; setting up the stack frame
+	jmp _validate
+
+_validate:
+	extern ft_strlen		; get the length of str
+							; length will be saved in the rax register
+	call ft_strlen
+	cmp rax, 0
+	jle _base_error
+	mov rcx, rax			; store the moving exponent in the rcx register
+	sub rcx, 1
+	; now get the length of the base string
+	mov rdx, rdi			; temporarily store str at rdi into rdx
+	mov rdi, rsi 			; mov base into rdi
+	call ft_strlen
+	cmp rax, 0
+	jle _base_error
+	cmp rax, 15
+	jg _base_error
+	; call _check_string
+	; cmp rax, 0
+	; je _base_error
+	; if the base is valid, set up the stack frame
 	push rbp
 	mov rbp, rsp
 	sub rsp, 40 ; allocating 40 bytes for 5 integer variables
-	jmp _validate
-
- 
-; check if the base length <= 1	
-; check for duplicate characters
-; check for -, +, and whitespace characters
-_validate:
-	extern ft_strlen	; get the length of the base 0 < b < 10
-						; length will be saved in the rax register
-	call ft_strlen
-	cmp rax, 0
-	jle _base_length_error
-	cmp rax, 15
-	jg _base_length_error
-	mov rcx, rax - 1	; store the moving exponent in the rcx register
-	mov [rbp - 8], rax
-	mov QWORD [rbp - 40], 0
+	mov [rbp - 8], rax		; move the base length into var
+	mov rdi, rdx			; move rdi back to original place
+	mov QWORD [rbp - 40], 0	; zero out initial result
 	jmp _atoi
 
+_check_string:
+	; loop through each character of the string using Rax as the incrementor
+	xor r8, r8
+	push rbp
+	mov rbp, rsp
+	sub rsp, 8
+	jmp _check_string_loop
+	mov rsp, rbp
+	pop rbp
+
+_check_string_loop:
+	cmp [rdi + rax], 45
+	je _base_error
+	cmp [rdi + rax], 43
+	je _base_error
+	mov [rbp - 8], rax
+	jmp _dup_check
+	inc rax
+	jmp _check_string_loop
+
+_dup_check:
+	cmp [rdi + (rbp - 8)], 0
+	je _dup_check_return
+	mov r8b, [rdi + (rbp - 8)]
+	cmp BYTE [rdi + rax], r8b
+	je _base_dup
+	inc [rbp - 8]
+	jmp _dup_check
+
+_dup_check_return:
+	mov rsp, rbp
+	pop rbp
+	ret
+
+_base_dup:
+	mov rsp, rbp
+	pop rbp
+	mov rax, 0
+	ret
+
+_base_error:
+	mov rax, 0
+	ret
+
 _pow:
-						; [rbp - 16] to get the result of power
+							; [rbp - 16] to get the result of power
 	mov QWORD [rbp - 16], 1	; set pow result to 1
 	mov QWORD [rbp - 32], 0 ; set counter to 0
+	mov rax, QWORD 0
 	call _pow_loop
-	ret					; will return back to _atoi label
+	ret						; will return back to _atoi label
 
 _pow_loop:
+
 	cmp [rbp - 32], rcx			; check if counter reached exponent
-	je _end						; this will return back to pow label
+	je _pow_end					; this will return back to pow label
 	mov rax, QWORD [rbp - 16]	; move pow result into rax for imul instruction
 	imul rax, QWORD [rbp - 8]	; multiply pow result with base
 									; move multiplication result from eax to [rbp - 16]
@@ -57,6 +111,8 @@ _pow_loop:
 	inc [rbp - 32]
 	jmp _pow_loop
 
+_pow_end:
+	ret
 
 _atoi:
 	; result will be stored in the rax register
@@ -64,6 +120,7 @@ _atoi:
 	; store the length of the str - 1 in rcx
 	; startimg from the leftmost digit, multiply the digit by (base ^ rcx)
 	; repeat this process up until the end of the string
+
 	cmp BYTE [rdi], 0	; if the nul terminator is reached, jump to end
 	je _atoi_end
 	; get the power of base using rcx as the exponent
@@ -72,24 +129,18 @@ _atoi:
 	sub al, 0x30		; subtract '0' from the character to get int representation
 	movzx rsi, al		; move it into rsi register. zero out rest of bits
 	call _pow	;
-	; [rbp - 40] should be rsi * [rbp - 16]
+						; [rbp - 40] should be rsi * [rbp - 16]
 	mov rax, [rbp - 16]
 	imul rax, rsi
-	; imul ax, rsi, [rbp - 16]
-	add [rbp - 40], ax	; add into the result
-	inc rdi	; go to the next number in the string
+						; imul ax, rsi, [rbp - 16]
+	add [rbp - 40], rax	; add into the result
+	inc rdi				; go to the next number in the string
+	dec rcx
 	jmp _atoi
 
-_base_length_error:
-	ret
-
-_end:
-	ret
-
 _atoi_end:
-	; move the result into rax register
+						; move the result into rax register
 	mov rax, [rbp - 40]	; move 8 bytes from rsp - 40 into the rax register
 	mov rsp, rbp
-	; add rsp, 40						; remove the 40 allocated bytes
 	pop rbp
 	ret

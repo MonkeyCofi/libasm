@@ -2,7 +2,7 @@ NAME := libasm.a
 
 TESTNAME := libasm_test
 
-BONUS_TESTNAME := libasm_bonus_test
+BONUS_TESTNAME := libasm_bonus
 
 TEST_FILE := main.c
 
@@ -24,7 +24,7 @@ CFLAGS := -Wall -Wextra -Werror
 SRCS := $(addprefix $(SRC_DIR)/, ft_strlen.s ft_strcmp.s ft_write.s ft_open.s ft_strcpy.s \
 				ft_strdup.s ft_read.s)
 
-BONUS_SRCS := $(addprefix $(BONUS_SRC_DIR)/, ft_atoi_base.s)
+BONUS_SRCS := $(addprefix $(BONUS_SRC_DIR)/, ft_atoi_base.s ft_lstsize.s)
 
 BONUS_OBJS := $(BONUS_SRCS:$(BONUS_SRC_DIR)/%.s=$(BONUS_OBJ_DIR)/%.o)
 
@@ -61,6 +61,7 @@ re: fclean all
 
 fclean: clean
 	rm -f $(TESTNAME)
+	rm -f $(BONUS_TESTNAME)
 	rm -f $(NAME)
 
 clean:
