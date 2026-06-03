@@ -18,14 +18,12 @@ section .text
 
 ft_atoi_base:
 	xor rax, rax
-	; setting up the stack frame
 	call .skip_leading_whitespace	; skip leading whitespaces
 	cmp BYTE [rdi], 0x0		; if the nul terminator is reached while skipping whitespaces,
 	je .base_error			; return 0
 	jmp .check_sign
 
 .validate:
-	; 						; length will be saved in the rax register
 	call .get_length
 	cmp rax, 0				; if the length of the string is 0, return 0
 	jle .base_error
